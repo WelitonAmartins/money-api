@@ -1,6 +1,5 @@
 package br.com.wellmartins.controller;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.wellmartins.entity.Pessoa;
 import br.com.wellmartins.event.RecursoCriadoEvent;
@@ -46,12 +46,17 @@ public class PessoaController {
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	
-	@PostMapping("/salvar")
+	@PostMapping
 	public ResponseEntity<Pessoa> salvarPessoa(@Valid @RequestBody Pessoa entidade, HttpServletResponse response){
-		
 		Pessoa resposta =  this.pessoaRepository.save(entidade);
-		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, resposta.getId()));
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(resposta);
+	}
+	
+	@DeleteMapping("/{codigo}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletarPessoa(@PathVariable Long codigo) {
+		this.pessoaRepository.deleteById(codigo);
 	}
 }
