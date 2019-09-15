@@ -3,6 +3,7 @@ package br.com.wellmartins.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -44,7 +45,7 @@ public class LancamentoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Lancamento> salvarLancamento(@RequestBody Lancamento param, HttpServletResponse response){
+	public ResponseEntity<Lancamento> salvarLancamento(@Valid @RequestBody Lancamento param, HttpServletResponse response){
 		Lancamento lancamento = this.lancamentoService.salvarLancamento(param);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);

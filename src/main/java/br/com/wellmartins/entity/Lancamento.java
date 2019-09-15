@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,9 +30,11 @@ public class Lancamento {
 	@Column(name ="CODIGO")
 	private Long codigo;
 	
+	@NotNull
 	@Column(name ="DESCRICAO")
 	private String descricao;
 	
+	@NotNull
 	@Column(name= "DATA_VENCIMENTO")
 	@JsonFormat(pattern =  "dd/MM/yyyy")
 	private LocalDate dataVencimento;
@@ -40,20 +43,24 @@ public class Lancamento {
 	@JsonFormat(pattern =  "dd/MM/yyyy")
 	private LocalDate dataPagamento;
 	
+	@NotNull
 	@Column(name ="VALOR")
 	private BigDecimal valor;
 	
 	@Column(name ="OBSERVACAO")
 	private String observacao;
 	
+	@NotNull
 	@Column(name ="TIPO")
 	@Enumerated(EnumType.STRING)
 	private TipoLancamento tipo;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="CODIGO_CATEGORIA")
 	private Categoria categoria;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="CODIGO_PESSOA")
 	private Pessoa pessoa;
