@@ -1,5 +1,6 @@
 package br.com.wellmartins.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,24 +10,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class SpringConfig extends WebSecurityConfigurerAdapter {
+@EnableResourceServer
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
-	@Override
+	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication() // autenticacao em memoria 
-		.withUser("admin").password("{noop}admin").roles("ROLE");
+		.withUser("admin").password("admin").roles("ROLE");
 	}
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers("/categoria/**").permitAll() //permitindo requisicoes pra esse endpoint
 		.anyRequest().authenticated().and() // qualquer outra requisição precisa de autorizacao
-		.httpBasic().and()// tipo de autenticao é http basica
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() // desabilitando sessão
 		.csrf().disable(); //desabilitando csrf
 	}
@@ -39,5 +43,9 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
 	    return manager;
 	}
 	
-
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+		resources.stateless(true);
+	}
+	
 }
