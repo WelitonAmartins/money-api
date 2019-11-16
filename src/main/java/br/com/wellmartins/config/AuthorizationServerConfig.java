@@ -8,8 +8,11 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
@@ -21,21 +24,30 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-		.withClient("angular")
-		.secret("@ngul@r0")
-		.scopes("read", "write")
-		.authorizedGrantTypes("password")
-		.accessTokenValiditySeconds(1800);
+		.withClient("angular") //user do cliente, do serviço 
+		.secret("@ngul@r0") //senha do cliente, do serviço 
+		.scopes("read", "write") // se nao colocar nada no scopo da erro ao subir a app
+		.authorizedGrantTypes("password") // infomando que o tipo é password flow do oauth2
+		.accessTokenValiditySeconds(1800); // tempo de vida do token
 		
 	}
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(tokenStore())
-		.authenticationManager(authenticationManager);
+		endpoints.tokenStore(tokenStore())/// informando onde esta armazendo o token
+		.accessTokenConverter(accessTokenConverter())
+		.authenticationManager(authenticationManager); // e informando o authenticationManager que é o cara que vai conseguir validar
+									// usuario e senhas e tals
+	}
+	
+	@Bean
+	public JwtAccessTokenConverter accessTokenConverter() {
+		JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+		accessTokenConverter.setSigningKey("algaworks");
+		return accessTokenConverter;
 	}
 	
 	@Bean
 	public TokenStore tokenStore() {
-		return new InMemoryTokenStore();
+		return new JwtTokenStore(accessTokenConverter());
 	}
 }

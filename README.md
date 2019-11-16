@@ -12,4 +12,8 @@ Projeto criado a partir do curso Fullstack Angular e Spring da algaworks
 	
 ## Tecnologias adicionadas por mim:
  - Lombok 
+ 
+## Diagrama de classe do projeto
+ 
+ ![diagrama do projeto](img/diagrama.png)
 	
