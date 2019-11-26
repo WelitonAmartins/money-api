@@ -27,14 +27,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.withClient("angular") //user do cliente, do serviço 
 		.secret("@ngul@r0") //senha do cliente, do serviço 
 		.scopes("read", "write") // se nao colocar nada no scopo da erro ao subir a app
-		.authorizedGrantTypes("password") // infomando que o tipo é password flow do oauth2
-		.accessTokenValiditySeconds(1800); // tempo de vida do token
+		.authorizedGrantTypes("password", "refresh_token") // infomando que o tipo é password flow do oauth2
+		.accessTokenValiditySeconds(20) // tempo de vida do token
+		.refreshTokenValiditySeconds(3600 * 24); // tempo de expiração do refresh token, (3600 é uma hora)
 		
 	}
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore())/// informando onde esta armazendo o token
 		.accessTokenConverter(accessTokenConverter())
+		.reuseRefreshTokens(false)
 		.authenticationManager(authenticationManager); // e informando o authenticationManager que é o cara que vai conseguir validar
 									// usuario e senhas e tals
 	}
