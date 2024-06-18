@@ -103,3 +103,48 @@ E deve atualizar o status do pagamento assim que ele for realizado
     private fun estaAtrasadoMaisDe30Dias(dataDePagamento: LocalDate): Boolean {
         return dataDePagamento.isBefore(LocalDate.now().minusDays(30))
     }
+
+
+
+```
+Nulo (null):
+
+Verifique se os métodos lidam corretamente com objetos nulos.
+Verifique se os atributos que não devem ser nulos lançam exceções apropriadas.
+Vazio:
+
+Teste com listas, conjuntos e mapas vazios.
+Verifique se as strings vazias são tratadas corretamente.
+Limites (Boundary Values):
+
+Teste com valores nos limites do intervalo permitido, como mínimo, máximo e valores logo fora desses limites.
+Valores Padrão:
+
+Verifique se os valores padrão são atribuídos corretamente quando nenhum valor é fornecido.
+Tipos de Dados:
+
+Assegure que os tipos de dados estão sendo tratados corretamente, especialmente ao receber dados de entradas dinâmicas.
+Cenários de Teste Específicos
+Parâmetros de Entrada:
+
+Valide que todos os parâmetros obrigatórios são fornecidos.
+Teste com combinações de parâmetros opcionais e obrigatórios.
+Coleções:
+
+Verifique a manipulação de coleções nulas, vazias, e com um único elemento.
+Teste com coleções grandes para verificar o desempenho e possíveis exceções.
+Strings:
+
+Teste com strings nulas, vazias, muito longas e contendo caracteres especiais.
+Numéricos:
+
+Verifique o comportamento com números negativos, zero, e o valor máximo suportado pelo tipo de dado.
+Teste divisões por zero e outras operações matemáticas que podem lançar exceções.
+Objetos e Relacionamentos:
+
+Verifique a integridade de objetos complexos e seus relacionamentos, garantindo que referências circulares e objetos filhos sejam tratados corretamente.
+Estado do Objeto:
+
+Valide transições de estado, verificando se métodos alteram o estado do objeto conforme esperado.
+Teste a consistência do estado após operações que deveriam ser atômicas.
+```
