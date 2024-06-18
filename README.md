@@ -60,7 +60,7 @@ Então o sistema deve enviar lembretes ao cliente via e-mail e SMS 5 dias antes 
 E deve atualizar o status do pagamento assim que ele for realizado
 ```
 
-
+```kotlin
     @Test
     fun `deve marcar cliente como inadimplente se pagamento estiver atrasado mais de 30 dias`() {
         // Dado
@@ -103,7 +103,7 @@ E deve atualizar o status do pagamento assim que ele for realizado
     private fun estaAtrasadoMaisDe30Dias(dataDePagamento: LocalDate): Boolean {
         return dataDePagamento.isBefore(LocalDate.now().minusDays(30))
     }
-
+```
 
 
 ```
