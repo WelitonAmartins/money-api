@@ -64,7 +64,8 @@ E deve atualizar o status do pagamento assim que ele for realizado
     @Test
     fun `deve marcar cliente como inadimplente se pagamento estiver atrasado mais de 30 dias`() {
         // Dado
-        val cliente = Cliente(id = 1, email = "cliente@exemplo.com", numeroTelefone = "1234567890", inadimplente = false, ultimaDataDePagamento = LocalDate.now().minusDays(31))
+        val cliente = Cliente(id = 1, email = "cliente@exemplo.com", numeroTelefone = "1234567890",
+ inadimplente = false, ultimaDataDePagamento = LocalDate.now().minusDays(31))
         `when`(clienteRepository.findById(1)).thenReturn(Optional.of(cliente))
 
         // Quando
